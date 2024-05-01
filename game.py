@@ -1,5 +1,8 @@
 from tkinter import *
 
+from constants import GAME_SIZE
+from food import Food
+
 
 class Game(Tk):
 
@@ -17,10 +20,12 @@ class Game(Tk):
         self.iconbitmap(default="snake.ico")
 
         self.resizable(False, False)
-        self.geometry("{}x{}".format(500, 500 + 70))
+        self.geometry("{}x{}".format(GAME_SIZE, GAME_SIZE + 70))
 
         self.score_label = Label(self, text="{}".format(self.score), font=("arial", 40))
         self.score_label.pack()
 
-        self.canvas = Canvas(self, bg="#000", width=500, height=500)
+        self.canvas = Canvas(self, bg="#000", width=GAME_SIZE, height=GAME_SIZE)
         self.canvas.pack()
+
+        self.food = Food(self.canvas)
