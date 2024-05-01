@@ -37,6 +37,8 @@ class Game(Tk):
         self.food = Food(self.canvas)
 
     def loop(self):
+        food_x, food_y = self.food.position
+
         snake_head, *_ = self.snake.positions
         snake_head_x, snake_head_y = snake_head
 
@@ -52,10 +54,18 @@ class Game(Tk):
 
         self.snake.add_new_slice(snake_head_x, snake_head_y)
 
-        self.snake.remove_tail()
+        if food_x == snake_head_x and food_y == snake_head_y:
+            self.food_was_eaten()
+        else:
+            self.snake.remove_tail()
 
         self.after(GAME_SPEED, self.loop)
 
     def on_key_release(self, event):
         if event.keysym in ["Right", "Left", "Up", "Down"]:
             self.direction = event.keysym
+
+    def food_was_eaten(self):
+        self.score += 1
+        self.food.place()
+        self.score_label.config(text=self.score)

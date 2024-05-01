@@ -7,8 +7,11 @@ from constants import GAME_SPACE_SIZE, GAME_SPACES
 
 class Food:
 
+    element: int | None
+
     def __init__(self, canvas: Canvas):
         self.canvas = canvas
+        self.element = None
         self.place()
 
     def generate_position(self) -> float:
@@ -18,7 +21,11 @@ class Food:
         x = self.generate_position()
         y = self.generate_position()
         self.position = [x, y]
-        self.canvas.create_oval(
+
+        if self.element != None:
+            self.canvas.delete(self.element)
+
+        self.element = self.canvas.create_oval(
             x,
             y,
             x + GAME_SPACE_SIZE,
