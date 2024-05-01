@@ -2,27 +2,25 @@ from tkinter import Canvas
 
 from numpy import random
 
-from constants import GAME_SPACE_SIZE, GAME_SPACES
+from constants import GAME_SPACE_SIZE
 
 
 class Food:
 
     element: int | None
 
-    def __init__(self, canvas: Canvas):
-        self.canvas = canvas
+    def __init__(self, canvas: Canvas, free_positions: list[str]):
         self.element = None
-        self.place()
+        self.canvas = canvas
+        self.place(free_positions)
 
-    def generate_position(self) -> float:
-        return random.randint(0, GAME_SPACES - 1) * GAME_SPACE_SIZE
+    def place(self, free_positions: list[str]):
+        sorted_position = free_positions[random.randint(0, len(free_positions))]
+        x, y = map(int, sorted_position.split(","))
 
-    def place(self):
-        x = self.generate_position()
-        y = self.generate_position()
         self.position = [x, y]
 
-        if self.element != None:
+        if self.element is not None:
             self.canvas.delete(self.element)
 
         self.element = self.canvas.create_oval(
