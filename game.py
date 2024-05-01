@@ -1,7 +1,8 @@
 from tkinter import *
 
-from constants import GAME_SIZE
+from constants import GAME_SIZE, GAME_SPACE_SIZE, GAME_SPEED
 from food import Food
+from snake import Snake
 
 
 class Game(Tk):
@@ -10,8 +11,12 @@ class Game(Tk):
         Tk.__init__(self)
 
         self.score = 0
+        self.direction = "Down"
 
+        self.bind("<KeyRelease>", self.on_key_release)
         self.setup_screen()
+
+        self.loop()
 
         self.mainloop()
 
@@ -28,4 +33,29 @@ class Game(Tk):
         self.canvas = Canvas(self, bg="#000", width=GAME_SIZE, height=GAME_SIZE)
         self.canvas.pack()
 
+        self.snake = Snake(self.canvas)
         self.food = Food(self.canvas)
+
+    def loop(self):
+        snake_head, *_ = self.snake.positions
+        snake_head_x, snake_head_y = snake_head
+
+        match self.direction:
+            case "Right":
+                snake_head_x += GAME_SPACE_SIZE
+            case "Left":
+                snake_head_x -= GAME_SPACE_SIZE
+            case "Down":
+                snake_head_y += GAME_SPACE_SIZE
+            case "Up":
+                snake_head_y -= GAME_SPACE_SIZE
+
+        self.snake.add_new_slice(snake_head_x, snake_head_y)
+
+        self.snake.remove_tail()
+
+        self.after(GAME_SPEED, self.loop)
+
+    def on_key_release(self, event):
+        if event.keysym in ["Right", "Left", "Up", "Down"]:
+            self.direction = event.keysym
