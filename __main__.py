@@ -14,6 +14,7 @@ class Game(Tk):
 
     def setup_screen(self):
         self.title("Jogo da cobrinha")
+        self.iconbitmap(default="snake.ico")
 
         self.resizable(False, False)
         self.geometry("{}x{}".format(500, 500 + 70))
