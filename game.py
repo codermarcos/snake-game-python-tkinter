@@ -96,7 +96,21 @@ class Game(Tk):
 
     def on_key_release(self, event):
         if event.keysym in ["Right", "Left", "Up", "Down"]:
-            self.direction = event.keysym
+            self.change_direction(event.keysym)
+
+    def change_direction(self, new_direction):
+        x_axis = ["Right", "Left"]
+        y_axis = ["Up", "Down"]
+
+        inverse_or_same_direction_x = (
+            new_direction in x_axis and self.direction in x_axis
+        )
+        inverse_or_same_direction_y = (
+            new_direction in y_axis and self.direction in y_axis
+        )
+
+        if not inverse_or_same_direction_x and not inverse_or_same_direction_y:
+            self.direction = new_direction
 
     def food_was_eaten(self):
         self.score += 1
