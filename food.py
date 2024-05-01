@@ -8,11 +8,10 @@ from constants import GAME_SPACE_SIZE, GAME_SPACES
 class Food:
 
     def __init__(self, canvas: Canvas):
-        self.canvas_tag = "Food"
         self.canvas = canvas
         self.place()
 
-    def generate_position(self) -> int:
+    def generate_position(self) -> float:
         return random.randint(0, GAME_SPACES - 1) * GAME_SPACE_SIZE
 
     def place(self):
@@ -25,5 +24,4 @@ class Food:
             x + GAME_SPACE_SIZE,
             y + GAME_SPACE_SIZE,
             fill="#ff0",
-            tags=self.canvas_tag,
         )
